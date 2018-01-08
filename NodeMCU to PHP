@@ -1,0 +1,70 @@
+
+#include<SoftwareSerial.h>
+
+#include <ESP8266WiFi.h>
+#include <WiFiClient.h>
+#include <ESP8266WebServer.h>
+#include <ESP8266mDNS.h>
+
+const char* ssid = "Greefi Technologies";// 
+const char* password = "greefi@123";
+//WiFiClient client;
+char server[] = "10.0.0.26";   //eg: 192.168.0.222
+
+
+ WiFiClient client;
+
+void setup()
+{
+ Serial.begin(115200);
+  delay(10);
+  // Connect to WiFi network
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+ 
+  WiFi.begin(ssid, password);
+ 
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println("");
+  Serial.println("WiFi connected");
+ 
+  // Start the server
+//  server.begin();
+  Serial.println("Server started");
+  Serial.print(WiFi.localIP());
+  delay(1000);
+  Serial.println("connecting...");
+  Sending_To_DB();
+ }
+void loop()
+{ 
+  
+  
+ }
+
+ void Sending_To_DB()   //CONNECTING WITH MYSQL
+ {
+   if (client.connect(server, 80)) {
+    Serial.println("connected");
+    // Make a HTTP request:
+    Serial.println("GET /test/index.php?allow=otha");     //YOUR URL /rfid/rfid_read.php?allow
+    client.print("GET /test/index.php?allow=otha");     //YOUR URL /rfid/rfid_read.php?allow  /var/www/html/rfid/rfid_read.php
+    Serial.println("&id=");
+    client.print("&id=");
+    client.print(" ");      //SPACE BEFORE HTTP/1.1
+    client.print("HTTP/1.1");
+    client.println();
+    client.println("Host: 10.0.0.26");//eg: 192.168.0.222
+    client.println("Connection: close");
+    client.println();
+  } else {
+    // if you didn't get a connection to the server:
+    Serial.println("connection failed");
+  }
+  client.stop();
+ }
