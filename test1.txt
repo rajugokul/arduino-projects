@@ -1,0 +1,20 @@
+delay///////////////////////////////////////////////////////////////////////////
+
+
+IF swi==1 THEN  count=count+1;ENDIF;
+IF 1<=count AND 5>=count THEN led1=1;ELSE led1=0;ENDIF;
+IF 6<=count AND 11>=count THEN led2=1;ELSE led2=0;ENDIF;
+IF 12<=count AND 17>=count THEN led3=1;ELSE led3=0;ENDIF;
+IF 18<=count AND 23>=count THEN led4=1;ELSE led4=0;ENDIF;
+IF count==21 THEN count=0;ENDIF;
+
+
+
+increement and decrement//////////////////////////////////////////////////////////////
+
+
+IF swi==1 AND k1==0  THEN v1=1;ELSE v1=0;ENDIF;
+IF v1==1 THEN count= count+1; ENDIF;
+IF count==100 THEN k1=1;ENDIF;
+IF k1==1 THEN count=count - 1 ;ENDIF;
+IF count==1 THEN k1=0;ENDIF;
