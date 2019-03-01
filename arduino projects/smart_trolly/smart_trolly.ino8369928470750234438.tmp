@@ -1,0 +1,92 @@
+#include <LiquidCrystal.h>
+const int rs = 8 , en = 7, d4 = 6, d5 = 5, d6 = 4, d7 = 3;
+LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
+String data=" ";
+int count=0;
+const int buttonPin1 = 9;     // start process.....
+const int buttonPin2 = 10;     // stop process....
+int buttonState1 = 0;
+int buttonState2 = 0;
+void setup() {
+  Serial.begin(9600);
+  lcd.begin(16, 2);
+  lcd.print("hello, world!");
+   pinMode(buttonPin1, INPUT);
+    pinMode(buttonPin2, INPUT);
+}
+
+void loop() {
+    buttonState1 = digitalRead(buttonPin1);
+      buttonState2 = digitalRead(buttonPin2);
+   if (buttonState1 == HIGH) {
+  Serial.println(">>>");
+   }
+   else if(buttonState1 == LOW){
+    Serial.println("start");
+   }
+   if (buttonState2 == HIGH) {
+  Serial.println("<<<<");
+   }
+   else if(buttonState1 == LOW){
+    Serial.println("stop");
+   }
+  if(Serial.available()>0){
+    data=Serial.readString();
+    Serial.println(data);
+   
+  }
+  if(data=="4B004052174E"){
+     lcd.clear();
+     lcd.setCursor(0, 1);
+     count++;
+    lcd.print("HORLICKS"+(String(count)));
+    data=" ";
+    
+  }
+  if(data=="0000A732E075"){
+     lcd.clear();
+     lcd.setCursor(0, 1);
+     count++;
+    lcd.print("BOOST"+(String(count)));
+    data=" ";
+    
+
+  }
+  if(data=="4A007BAF3AA4"){
+     lcd.clear();
+     lcd.setCursor(0, 1);
+     count++;
+    lcd.print("BONVITA"+(String(count)));
+    data=" ";
+        
+
+  }
+   if(data=="00009FBB0622"){
+     lcd.clear();
+     lcd.setCursor(0, 1);
+     count++;
+    lcd.print("choco"+(String(count)));
+    data=" ";
+        
+
+  }
+if(data=="0000A03B9F04"){
+   lcd.clear();
+     lcd.setCursor(0, 1);
+     count++;
+    lcd.print("munch"+(String(count)));
+    data=" ";
+        
+  }
+
+}
+
+void smstemplate(){
+  Serial.println("AT+CMGF=1");    //Sets the GSM Module in Text Mode
+  delay(1000);  // Delay of 1000 milli seconds or 1 second
+  Serial.println("AT+CMGS=\"+919962060125\"\r"); // Replace x with mobile number
+  delay(100);
+  Serial.println((char)26);// ASCII code of CTRL+Z
+  delay(1000);
+}
+
